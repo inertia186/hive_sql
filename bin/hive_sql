@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+require 'hive_sql'
+
+puts '#'*40
+puts '#'*40
+puts "Welcome to HiveSQL Version: #{HiveSQL::VERSION}"
+puts '#'*40
+puts '#'*40
+puts ''
+
+case ARGV[0]
+when 'todo'
+  puts 'todo'
+else
+  STDOUT.puts <<~EOF
+    Please provide command name
+
+    Usage:
+      hive_sql todo
+      hive_sql help
+  EOF
+end
