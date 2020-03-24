@@ -504,6 +504,37 @@ task :balance, [:party_a, :party_b, :symbol] do |t, args|
   puts "#{party_b}: %.3f #{symbol}, difference: %.3f #{symbol}" % [balance_b, (balance_b - balance_a)]
 end
 
+desc 'Top what ...'
+task :top, [:what, :limit] do |t, args|
+  what = args[:what].to_s.downcase.to_sym
+  limit = (args[:limit] || '10').to_i
+  since = 1.week.ago
+  
+  case what
+  when :upvoted, :downvoted
+    comments = HiveSQL::Comment.after(since)
+    comments = if what == :upvoted
+      comments.where('net_rshares > 0')
+      comments = comments.order('sum_net_rshares DESC')
+    elsif what == :downvoted
+      comments.where('net_rshares < 0')
+      comments = comments.order('sum_net_rshares ASC')
+    end
+    
+    comments = comments.group(:author, :permlink, :created)
+    comments = comments.limit(limit)
+    
+    comments = comments.sum(:net_rshares)
+    
+    comments.each do |k, v|
+      url = "https://hive.blog/@#{k[0]}/#{k[1]}"
+      created = (Time.now - k[2]) / 60 / 60 / 24
+      
+      puts "#{v}; #{created.round(2)} days ago: #{url}"
+    end
+  end
+end
+
 # Doesn't look like this table exists.
 # desc 'List conversion HBD conversion request sums grouped by day.'
 # task :convert, [:days_ago] do |t, args|
