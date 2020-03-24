@@ -28,9 +28,9 @@ gem 'hive_sql'
 
 ```bash
 gem install hive_sql
-export STEEMSQL_HOST=<your hivesql host>
-export STEEMSQL_USERNAME=<your hivesql username>
-export STEEMSQL_PASSWORD=<your hivesql password>
+export HIVESQL_HOST=<your hivesql host>
+export HIVESQL_USERNAME=<your hivesql username>
+export HIVESQL_PASSWORD=<your hivesql password>
 hive_sql top upvoted
 ```
 
@@ -60,9 +60,9 @@ followers = HiveSQL::Tx::Custom::Follow
 followers.following(:alice).today.count
 ```
 
-### Resteem
+### Reblog
 
-How to query today's "resteems":
+How to query today's reblogs:
 
 ```ruby
 reblogs = HiveSQL::Tx::Custom::Reblog
@@ -88,7 +88,7 @@ comments = HiveSQL::Comment.app('esteem').where(author: 'good-karma')
 
 ## Get in touch!
 
-If you're using HiveSQL with ruby, I'd love to hear from you.  Drop me a line and tell me what you think!  I'm @inertia on STEEM.
+If you're using HiveSQL with ruby, I'd love to hear from you.  Drop me a line and tell me what you think!  I'm @inertia on Hive.
 
 Please note that this gem just provides access to the HiveSQL data services are provided by @arcange.
 
