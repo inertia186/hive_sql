@@ -454,7 +454,10 @@ task :proxied, [:days_ago] do |t, args|
   ap proxied.count(:all)
 end
 
-desc 'Claimed Rewards'
+desc <<~EOF
+  Claimed Rewards.
+  Use the "account_name" of a user or '%' to match on any user.
+EOF
 task :claimed, [:account_name, :days_ago, :symbol] do |t, args|
   now = Time.now.utc
   account_name = args[:account_name] || '%'
@@ -473,7 +476,7 @@ task :claimed, [:account_name, :days_ago, :symbol] do |t, args|
     when :mvests then claims.where("reward_vests > 0")
     when :hive then claims.where("reward_steem > 0")
     when :hbd then claims.where("reward_sbd > 0")
-    else; raise "Unknown symbol: #{symbol}"
+    else; raise "Unknown symbol: #{symbol.to_s.upcase} (allowed: VESTS, MVESTS, HIVE, HBD)"
   end
     
   claims = claims.group("FORMAT(timestamp, 'yyyy-MM')")
@@ -492,6 +495,10 @@ task :claimed, [:account_name, :days_ago, :symbol] do |t, args|
   puts "# Total claimed #{symbol}: #{claims.values.sum}"
 end
 
+desc <<~EOF
+  Balance for given parties.
+  Where "party_a" is the first account, "party_b" is the second account and "symbol" is a valid native symbol.
+EOF
 task :balance, [:party_a, :party_b, :symbol] do |t, args|
   party_a = args[:party_a]
   party_b = args[:party_b]
@@ -504,7 +511,10 @@ task :balance, [:party_a, :party_b, :symbol] do |t, args|
   puts "#{party_b}: %.3f #{symbol}, difference: %.3f #{symbol}" % [balance_b, (balance_b - balance_a)]
 end
 
-desc 'Top what ...'
+desc <<~EOF
+  Top what ... 
+  Allowed \"what\" options: upvoted downvoted
+EOF
 task :top, [:what, :limit] do |t, args|
   what = args[:what].to_s.downcase.to_sym
   limit = (args[:limit] || '10').to_i

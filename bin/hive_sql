@@ -9,31 +9,70 @@ $LOAD_PATH.unshift gem_dir
 
 pwd = Dir.pwd
 Dir.chdir(gem_dir)
+Rake::TaskManager.record_task_metadata = true
 Rake.application.init
 Rake.application.load_rakefile
 Dir.chdir(pwd)
 
-puts '#'*40
-puts '#'*40
-puts "Welcome to HiveSQL Version: #{HiveSQL::VERSION}"
-puts '#'*40
-puts '#'*40
-puts ''
+EXCLUDED_TASKS = %w(build clean clobber default install install:local push
+  release release:guard_clean release:rubygem_push release:source_control_push
+  test)
+
+def version
+  puts "HiveSQL Version: #{HiveSQL::VERSION}\n\n"
+end
+
+def help(task_name = ARGV[1])
+  if !!task_name && task_name != 'help'
+    task = Rake::Task[task_name]
+    
+    help_text = if !!task.full_comment
+      task.full_comment.split("\n").map{|c| "\n  #{c}"}.join("\n") + "\n\n"
+    else
+      "\n"
+    end
+    
+    help_text += "  hive_sql #{task.name} #{task.arg_names.map{|a| "[#{a}]"}.join(' ')}"
+    
+    STDOUT.puts <<~EOF
+      Usage:
+      #{help_text}
+    EOF
+  else
+    tasks = Rake::Task.tasks.map do |task|
+      next if EXCLUDED_TASKS.include? task.name
+      
+      help_text = if !!task.comment
+        "\n  > #{task.comment}\n"
+      else
+        "\n"
+      end
+      
+      help_text += "  hive_sql #{task.name} #{task.arg_names.map{|a| "[#{a}]"}.join(' ')}"
+    end.compact
+    
+    STDOUT.puts <<~EOF
+      Please provide command name
+
+      Usage:
+      #{tasks.join("\n")}
+        
+        hive_sql help [command]
+        
+        hive_sql version
+    EOF
+  end
+end
 
 case ARGV[0]
-when 'todo'
-  puts 'todo'
+when 'version' then version
+when 'help' then help
 else
   begin
     Rake::Task[ARGV[0]].invoke(*ARGV[1..-1])
   rescue => e
     puts e
-    STDOUT.puts <<~EOF
-      Please provide command name
-
-      Usage:
-        hive_sql todo
-        hive_sql help
-    EOF
+    
+    help ARGV[0]
   end
 end
