@@ -3,6 +3,8 @@
 Access [HiveSQL.io](https://hivesql.io) data from your ruby/rails application.
 
 [![Gem Version](https://badge.fury.io/rb/hive_sql.svg)](https://badge.fury.io/rb/hive_sql)
+[![Inline docs](http://inch-ci.org/github/inertia186/hive_sql.png)](http://inch-ci.org/github/inertia186/hive_sql)
+[![Yard Docs](http://img.shields.io/badge/yard-docs-blue.svg)](http://rubydoc.info/github/inertia186/hive_sql)
 
 ### How to Subscribe
 
