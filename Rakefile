@@ -545,6 +545,52 @@ task :top, [:what, :limit] do |t, args|
   end
 end
 
+desc <<~EOF
+  Top tags by pending_payout_value.
+EOF
+task :top_tags, [:limit] do |t, args|
+  limit = (args[:limit] || '100').to_i
+  since = 1.week.ago
+  
+  comments = HiveSQL::Comment.after(since)
+  comments = comments.joins(:tags)
+  comments = comments.where('pending_payout_value > 0')
+  comments = comments.order('sum_pending_payout_value DESC')
+    
+  comments = comments.group('LOWER(tags.tag)')
+  comments = comments.limit(limit)
+    
+  comments = comments.sum(:pending_payout_value)
+    
+  comments.each do |k, v|
+    url = "https://hive.blog/#{k}"
+    
+    puts "#{v}; #{url}"
+  end
+end
+
+desc 'Lists sum of proposal pay grouped by date, from, and to.'
+task :proposal_pay, [:minimum_payment, :days_ago] do |t, args|
+  now = Time.now.utc
+  minimum_payment = (args[:minimum_payment] || '0.001').to_f
+  symbol = (args[:symbol] || 'HBD').upcase
+  days_ago = (args[:days_ago] || '30').to_i
+  after_timestamp = now - days_ago * 86400
+  
+  payments = HiveSQL::Vo::ProposalPay.where.not(receiver: ['steem.dao', 'hive.fund'])
+  payments = payments.where('payment > ?', minimum_payment)
+  payments = payments.where('payment_symbol = ?', symbol)
+  payments = payments.where('timestamp > ?', after_timestamp)
+  payments = payments.group('CAST(timestamp AS DATE)', :receiver)
+  payments = payments.order('cast_timestamp_as_date ASC')
+  
+  puts "Daily payment sum over #{'%.3f' % minimum_payment} #{symbol} since #{after_timestamp} ..."
+  ap payments.sum(:payment)
+  
+  average_daily_payments = payments.sum(:payment).values.sum / days_ago
+  puts "Average daily payments: #{'%.3f' % average_daily_payments} #{symbol}"
+end
+
 # Doesn't look like this table exists.
 # desc 'List conversion HBD conversion request sums grouped by day.'
 # task :convert, [:days_ago] do |t, args|
