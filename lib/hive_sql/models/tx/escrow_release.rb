@@ -19,7 +19,7 @@ end
 #   who: varchar,
 #   receiver: varchar,
 #   escrow_id: integer,
-#   sdb_amount: money,
-#   steem_amount: money,
+#   hdb_amount: money,
+#   hive_amount: money,
 #   timestamp: datetime
 # )

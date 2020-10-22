@@ -14,9 +14,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/inertia186/hive_sql'
   spec.license       = 'CC0-1.0'
 
-  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/})
-  end
+  spec.files         = Dir.glob("{bin,lib}/**/*") + %w(LICENSE README.md)
   spec.bindir        = 'bin'
   spec.executables   = 'hive_sql'
   spec.require_paths = ['lib']

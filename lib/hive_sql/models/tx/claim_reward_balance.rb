@@ -14,8 +14,8 @@ end
 #   ID: integer,
 #   tx_id: integer,
 #   account: varchar,
-#   reward_steem: money,
-#   reward_sbd: money,
+#   reward_hive: money,
+#   reward_hbd: money,
 #   reward_vests: money,
 #   timestamp: datetime
 # )

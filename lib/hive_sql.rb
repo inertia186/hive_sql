@@ -53,6 +53,8 @@ require "hive_sql/models/tx/custom/community"
 
 require "hive_sql/models/vo/author_reward"
 require "hive_sql/models/vo/comment_benefactor_reward"
+require "hive_sql/models/vo/comment_payout_update"
+require "hive_sql/models/vo/comment_reward"
 require "hive_sql/models/vo/curation_reward"
 require "hive_sql/models/vo/fill_convert_request"
 require "hive_sql/models/vo/fill_order"

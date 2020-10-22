@@ -403,8 +403,8 @@ namespace :rewards do
     end
     
     rewards = case symbol
-    when 'HBD' then rewards.sum(:sbd_payout)
-    when 'HIVE' then rewards.sum(:steem_payout)
+    when 'HBD' then rewards.sum(:hbd_payout)
+    when 'HIVE' then rewards.sum(:hive_payout)
     when 'VESTS' then rewards.sum(:vesting_payout)
     when 'MVESTS'
       rewards.sum('vesting_payout / 1000000')
@@ -474,8 +474,8 @@ task :claimed, [:account_name, :days_ago, :symbol] do |t, args|
   claims = case symbol
     when :vests then claims.where("reward_vests > 0")
     when :mvests then claims.where("reward_vests > 0")
-    when :hive then claims.where("reward_steem > 0")
-    when :hbd then claims.where("reward_sbd > 0")
+    when :hive then claims.where("reward_hive > 0")
+    when :hbd then claims.where("reward_hbd > 0")
     else; raise "Unknown symbol: #{symbol.to_s.upcase} (allowed: VESTS, MVESTS, HIVE, HBD)"
   end
     
@@ -485,8 +485,8 @@ task :claimed, [:account_name, :days_ago, :symbol] do |t, args|
   claims = case symbol
     when :vests then claims.sum(:reward_vests)
     when :mvests then claims.sum('reward_vests / 1000000')
-    when :hive then claims.sum(:reward_steem)
-    when :hbd then claims.sum(:reward_sbd)
+    when :hive then claims.sum(:reward_hive)
+    when :hbd then claims.sum(:reward_hbd)
   end
   
   puts "# Claimed rewards in #{symbol.to_s.upcase} sum grouped by month ..."
@@ -512,7 +512,7 @@ task :balance, [:party_a, :party_b, :symbol] do |t, args|
 end
 
 desc <<~EOF
-  Top what ... 
+  Top comments by what ... 
   Allowed \"what\" options: upvoted downvoted
 EOF
 task :top, [:what, :limit] do |t, args|

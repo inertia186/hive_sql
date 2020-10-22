@@ -2,7 +2,7 @@ module HiveSQL
   module Vo
     class ProposalPay < HiveSQL::SqlBase
 
-      self.table_name = :VOProposalPay
+      self.table_name = :VOProposalPays
 
     end
   end

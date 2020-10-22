@@ -16,7 +16,7 @@ end
 #   author: varchar,
 #   permlink: varchar,
 #   max_accepted_payout: money,
-#   percent_steem_dollars: integer,
+#   percent_hbd: integer,
 #   allow_votes: boolean,
 #   allow_curation_rewards: boolean,
 #   timestamp: datetime

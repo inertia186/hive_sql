@@ -17,7 +17,7 @@ end
 #   benefactor: varchar,
 #   author: varchar,
 #   permlink: varchar,
-#   sbd_payout: money
-#   steem_payout: money
+#   hbd_payout: money
+#   hive_payout: money
 #   vesting_payout: decimal(18,6)
 # )
