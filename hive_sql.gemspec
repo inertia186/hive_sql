@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/inertia186/hive_sql'
   spec.license       = 'CC0-1.0'
 
-  spec.files         = Dir.glob("{bin,lib}/**/*") + %w(LICENSE README.md)
+  spec.files         = Dir.glob("{bin,lib}/**/*") + %w(Rakefile LICENSE README.md)
   spec.bindir        = 'bin'
   spec.executables   = 'hive_sql'
   spec.require_paths = ['lib']
@@ -31,9 +31,9 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'nokogiri', ['~> 1.8']
   spec.add_runtime_dependency 'rest-client', ['~> 2.0']
-  spec.add_runtime_dependency 'activerecord', ['>= 4', '< 6']
+  spec.add_runtime_dependency 'activerecord', ['>= 4']
   spec.add_runtime_dependency 'tiny_tds', ['~> 2.1']
-  spec.add_runtime_dependency 'activerecord-sqlserver-adapter', ['>= 4', '< 6']
-  spec.add_runtime_dependency 'activesupport', ['>= 4', '< 6']
+  spec.add_runtime_dependency 'activerecord-sqlserver-adapter', ['>= 4']
+  spec.add_runtime_dependency 'activesupport', ['>= 4']
   spec.add_runtime_dependency 'awesome_print', '~> 1.7', '>= 1.7.0'
 end
