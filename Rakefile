@@ -417,17 +417,28 @@ namespace :rewards do
   end
 
   desc 'Lists curation rewards grouped by date.'
-  task :curation, [:symbol, :days_ago] do |t, args|
+  task :curation, [:symbol, :days_ago, :curator] do |t, args|
     now = Time.now.utc
     symbol = (args[:symbol] || 'MVESTS').upcase
     after_timestamp = now - ((args[:days_ago] || '7').to_i * 86400)
+    curator = args[:curator]
     
     rewards = HiveSQL::Vo::CurationReward
     rewards = rewards.where('timestamp > ?', after_timestamp)
     rewards = rewards.group('CAST(timestamp AS DATE)')
     rewards = rewards.order('cast_timestamp_as_date ASC')
     
-    puts "Daily curation reward #{symbol} sum grouped by date since #{after_timestamp} ..."
+    if !!curator
+      if curator =~ /%/
+        rewards = rewards.where("curator LIKE ?", curator)
+      else
+        rewards = rewards.where(curator: curator)
+      end
+      
+      puts "Daily #{curator} reward #{symbol} sum grouped by date since #{after_timestamp} ..."
+    else
+      puts "Daily curation reward #{symbol} sum grouped by date since #{after_timestamp} ..."
+    end
     
     case symbol
     when 'VESTS'
