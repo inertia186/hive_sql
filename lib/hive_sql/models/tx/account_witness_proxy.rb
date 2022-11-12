@@ -10,7 +10,7 @@ module HiveSQL
         
         ids = active.map do |p|
           p.id unless AccountWitnessProxy.where(account: p.account).
-            where.not(proxy: p.Proxy).
+            where.not(proxy: p.proxy).
             where('timestamp > ?', p.timestamp).exists?
         end
         
@@ -26,6 +26,6 @@ end
 #   ID: integer,
 #   tx_id: integer,
 #   account: varchar,
-#   Proxy: varchar,
+#   proxy: varchar,
 #   timestamp: datetime
 # )
