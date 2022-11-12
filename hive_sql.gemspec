@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_development_dependency 'bundler', '~> 2.0', '>= 2.0.1'
-  spec.add_development_dependency 'rake', '~> 12.1', '>= 12.1.0'
+  spec.add_development_dependency 'rake', '~> 13.0', '>= 13.0.6'
   spec.add_development_dependency 'minitest-proveit', '~> 1.0', '>= 1.0.0'
   spec.add_development_dependency 'minitest', '~> 5.10', '>= 5.10.3'
   spec.add_development_dependency 'minitest-line', '~> 0.6', '>= 0.6.4'
@@ -34,6 +34,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'activerecord', ['>= 4']
   spec.add_runtime_dependency 'tiny_tds', ['~> 2.1']
   spec.add_runtime_dependency 'activerecord-sqlserver-adapter', ['>= 4']
-  spec.add_runtime_dependency 'activesupport', ['>= 4']
+  spec.add_runtime_dependency 'activesupport', '>= 4', '< 7.0.3'
   spec.add_runtime_dependency 'awesome_print', '~> 1.7', '>= 1.7.0'
 end
